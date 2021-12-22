@@ -19,6 +19,9 @@ export function Canvas() {
             onMouseDown={startDrawing}
             onMouseUp={finishDrawing}
             onMouseMove={draw}
+            onTouchStart={startDrawing}
+            onTouchEnd={finishDrawing}
+            onTouchMove={draw}
             ref={canvasRef}
         />
     )

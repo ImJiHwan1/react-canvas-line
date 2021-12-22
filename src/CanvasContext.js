@@ -15,13 +15,22 @@ export const CanvasProvider = ({ children }) => {
         canvas.style.height = `${window.innerHeight}px`;
 
         const context = canvas.getContext("2d")
+        // canvas 안에 이미지 삽입
+        const image = new Image();
+        image.src = 'haru.png'
+        image.onload = () => {
+            context?.drawImage(image, 0, 0, window.innerWidth, window.innerHeight);
+        }
+        // canvas 비율
         context.scale(2, 2);
+        // canvas line style
         context.lineCap = "round";
-        context.strokeStyle = "black";
+        context.strokeStyle = "pink";
         context.lineWidth = 5;
         contextRef.current = context;
     };
 
+    // 처음 찍었을때 실행되는 함수
     const startDrawing = ({ nativeEvent }) => {
         const { offsetX, offsetY } = nativeEvent;
         contextRef.current.beginPath();
@@ -29,11 +38,12 @@ export const CanvasProvider = ({ children }) => {
         setIsDrawing(true)
     }
 
+    // 마지막 놓았을때 실행되는 함수
     const finishDrawing = ({ nativeEvent }) => {
         contextRef.current.closePath();
         setIsDrawing(false);
     }
-
+    // 그리는 함수
     const draw = ({ nativeEvent }) => {
         if (!isDrawing) {
           return;
@@ -42,7 +52,8 @@ export const CanvasProvider = ({ children }) => {
         contextRef.current.lineTo(offsetX, offsetY);
         contextRef.current.stroke();
       };
-    
+      
+    // 캔바스 지우는 함수
       const clearCanvas = () => {
         const canvas = canvasRef.current;
         const context = canvas.getContext("2d")
